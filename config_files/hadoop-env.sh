@@ -34,7 +34,7 @@
 # may want to provide OVERWRITING values on the command line.
 # For example:
 #
-JAVA_HOME=$JAVA_HOME
+export JAVA_HOME=/opt/openlogic-openjdk-8u392-b08-linux-x64
 #
 # Therefore, the vast majority (BUT NOT ALL!) of these defaults
 # are configured for substitution and not append.  If append

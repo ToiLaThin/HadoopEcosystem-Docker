@@ -26,23 +26,27 @@
         <value>JAVA_HOME,HADOOP_COMMON_HOME,HADOOP_HDFS_HOME,HADOOP_CONF_DIR,CLASSPATH_PREPEND_DISTCACHE,HADOOP_YARN_HOME,HADOOP_HOME,PATH,LANG,TZ,HADOOP_MAPRED_HOME</value>
     </property>
     <property>
-        <name>yarn.resourcemanager.scheduler.address</name>
-        <value>namenode-master:9002</value>
+        <name>yarn.resourcemanager.hostname</name>
+        <value>yarn</value>
     </property>
     <property>
         <name>yarn.resourcemanager.address</name>
-        <value>namenode-master:9003</value>
+        <value>yarn:9003</value>
+    </property>
+    <property>
+        <name>yarn.resourcemanager.scheduler.address</name>
+        <value>yarn:9002</value>
     </property>
     <property>
         <name>yarn.resourcemanager.webapp.address</name>
-        <value>namenode-master:9004</value>
+        <value>yarn:9004</value>
     </property>
     <property>
         <name>yarn.resourcemanager.resource-tracker.address</name>
-        <value>namenode-master:9005</value>
+        <value>yarn:9005</value>
     </property>
     <property>
         <name>yarn.resourcemanager.admin.address</name>
-        <value>namenode-master:9006</value>
+        <value>yarn:9006</value>
     </property>
 </configuration>

@@ -16,6 +16,8 @@ WORKDIR /opt
 RUN cp ${DERBY_LIB}/derbyclient.jar ${HIVE_LIB}
 RUN cp ${DERBY_LIB}/derbytools.jar ${HIVE_LIB}
 
+# this will be run when the container is run, already have namenode with warehouse
+COPY ./scripts/init-metastore.sh /opt/init-metastore.sh
 #replace hive-site.xml with our own(copied from config_files)
 # RUN rm -rf ${HIVE_LIB}/conf/hive-site.xml
 ADD ./config_files/hive-site.xml ${HIVE_LIB}/conf

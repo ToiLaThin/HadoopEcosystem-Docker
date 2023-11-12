@@ -1,0 +1,85 @@
+# version of docker-compose syntac
+  version: "3"
+  # This docker compose file, if want to run correctly, we must run the build file 
+  # which will build all the image with necessary image with tags first.
+  services:    
+    hadoop-namenode:
+      build: ./hdfs/namenode/
+      image: namenode:latest #specify the name of image with tag when run docker compose up -d --build
+      hostname: namenode-master
+      ports:
+        - "50030:50030"
+        - "9870:9870"
+        - "8020:8020"
+      volumes:      
+        - ./mnt/namenode:/data
+      # this map the local file to the container file, so the data will be persistent, but only if the container can be deleted
+      container_name: namenode
+      networks:
+        - dock_net
+      # command: /opt/make-warehouse.sh
+
+    hadoop-datanode:
+      build: ./hdfs/datanode/
+      image: datanode:latest
+      volumes:
+        - ./mnt/datanode:/data
+      container_name: datanode
+      depends_on:
+        - hadoop-namenode
+      networks:
+        - dock_net
+    
+    yarn:
+      build: ./hdfs/yarn/
+      hostname: yarn
+      image: yarn:latest
+      ports:
+        - "8088:8088"
+        - "8030:8030"
+        - "8031:8031"
+        - "8032:8032"
+        - "8033:8033"
+        - "8040:8040"
+        - "8042:8042"
+        - "8080:8080"
+        - "8188:8188"
+        - "19888:19888"
+        - "45454:45454"
+        - "10020:10020"
+        - "19890:19890"
+        - "10033:10033"
+        - "22:22"
+        - "9002:9002"
+        - "9003:9003"
+        - "9004:9004"
+        - "9005:9005"
+        - "9006:9006"
+      volumes:
+        - ./mnt/yarn:/data
+      container_name: yarn
+      depends_on:
+        - hadoop-namenode
+        - hadoop-datanode
+      networks:
+        - dock_net
+
+    hive-server-and-metastore:
+      build: ./hive/
+      image: hive:latest
+      hostname: hive-server-and-metastore
+      ports:
+        - "9880:9880"
+      container_name: hive
+      volumes:
+        - ./mnt/hive:/data
+      depends_on:
+        - hadoop-namenode 
+        - hadoop-datanode
+      networks:
+        - dock_net
+      command: /opt/init-metastore.sh
+
+  networks:
+    dock_net:
+      driver: bridge

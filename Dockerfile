@@ -56,6 +56,15 @@ ENV HADOOP_USER_CLASSPATH_FIRST=true
 ENV HIVE_LIB=$HIVE_HOME/lib
 ENV PATH=$PATH:$HIVE_HOME/bin
 
+# Set user for HDFS and Yarn (for production probably not smart to put root)
+# This is to run start-yarn or start-dfs
+ENV HDFS_NAMENODE_USER="root"
+ENV HDFS_DATANODE_USER="root"
+ENV HDFS_SECONDARYNAMENODE_USER="root"
+ENV YARN_RESOURCEMANAGER_USER="root"
+ENV YARN_NODEMANAGER_USER="root"
+
+
 ADD ./config_files/core-site.xml ${HADOOP_HOME}/etc/hadoop/
 ADD ./config_files/hadoop-env.sh ${HADOOP_HOME}/etc/hadoop/
 ADD ./config_files/yarn-site.xml ${HADOOP_HOME}/etc/hadoop/

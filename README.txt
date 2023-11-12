@@ -32,6 +32,8 @@ THEN run another docker exec -it hive /bin/bash in a new cmd run: schematool -db
 (this we run derby as network server and hive server and metastore server is at one computer but still can accept multiple request)
 
 
-
-+ TODO: ochestrate with docker compose so fewer command needed , add a few .sh or makefile (read from githubs)
 + TODO: config hadoop YARN, connect spark to it , config remote hive_metastore through postgres or mysql 
+
+I added docker-compose file, which build the Dockerfile to make images, then run that image to create containers with specified port, hostname, network 
++ just run: docker compose up -d --build
++ to init like make warehouse dir and initSchema(if failed then will continue), then open the terminal attach to the container run: .\init.bat 
