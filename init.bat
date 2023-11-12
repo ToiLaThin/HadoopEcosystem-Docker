@@ -1,7 +1,11 @@
 rem mkdir warehouse in namenode-master and init hive metastore_db schema
 docker exec namenode sh -c "hdfs dfs -mkdir /hive"
+docker exec namenode sh -c "hdfs dfs -mkdir /spark-event-logs"
+docker exec namenode sh -c "hdfs dfs -mkdir /spark-history-logs"
 docker exec namenode sh -c "hdfs dfs -mkdir /hive/warehouse"
 docker exec namenode sh -c "hdfs dfs -chmod g+w /hive/warehouse"
+docker exec namenode sh -c "hdfs dfs -chmod g+w /spark-event-logs"
+docker exec namenode sh -c "hdfs dfs -chmod g+w /spark-history-logs"
 start docker exec -it namenode /bin/bash 
 timeout 3
 

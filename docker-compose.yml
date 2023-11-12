@@ -13,6 +13,8 @@
         - "8020:8020"
       volumes:      
         - ./mnt/namenode:/data
+        - ./mnt/spark-event-logs:/opt/hdfs/namenode/spark-event-logs
+        - ./mnt/spark-history-logs:/opt/hdfs/namenode/spark-history-logs
       # this map the local file to the container file, so the data will be persistent, but only if the container can be deleted
       container_name: namenode
       networks:
@@ -35,21 +37,6 @@
       hostname: yarn
       image: yarn:latest
       ports:
-        - "8088:8088"
-        - "8030:8030"
-        - "8031:8031"
-        - "8032:8032"
-        - "8033:8033"
-        - "8040:8040"
-        - "8042:8042"
-        - "8080:8080"
-        - "8188:8188"
-        - "19888:19888"
-        - "45454:45454"
-        - "10020:10020"
-        - "19890:19890"
-        - "10033:10033"
-        - "22:22"
         - "9002:9002"
         - "9003:9003"
         - "9004:9004"
@@ -79,6 +66,35 @@
       networks:
         - dock_net
       command: /opt/init-metastore.sh
+
+    spark-master:
+      build: ./spark/master/
+      image: spark-master:latest
+      hostname: spark-master
+      ports:
+        - "7077:7077"
+        - "8080:8080"
+      container_name: spark-master
+      volumes:
+        - ./mnt/spark-master:/data
+      depends_on:
+        - hadoop-namenode
+        - hadoop-datanode
+        - yarn
+        - hive-server-and-metastore
+      networks:
+        - dock_net
+
+    spark-worker:
+      build: ./spark/worker/
+      image: spark-worker:latest
+      container_name: spark-worker
+      volumes:
+        - ./mnt/spark-worker:/data
+      depends_on:
+        - spark-master
+      networks:
+        - dock_net
 
   networks:
     dock_net:
